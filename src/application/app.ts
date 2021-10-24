@@ -1,9 +1,12 @@
 import {Container} from "@tsclean/core";
+import {controllers} from "@/infrastructure/entry-points/api";
+import {adapters, services} from "@/infrastructure/driven-adapters/providers";
 
 @Container({
     imports: [],
-    controllers: [],
-    providers: []
+    providers: [...services, ...adapters],
+    controllers: [...controllers],
 })
 
-export class AppContainer {}
+export class AppContainer {
+}
