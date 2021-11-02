@@ -6,6 +6,7 @@ export interface ILoadAccountTokenRepository {
 
 export namespace ILoadAccountTokenRepository {
     export type Result = {
-        id: string
+        id: string,
+        roles: []
     }
 }

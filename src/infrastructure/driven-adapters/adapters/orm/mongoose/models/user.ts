@@ -7,6 +7,7 @@ const schema = new Schema<UserModel>({
     lastName: String,
     email: String,
     password: String,
+    roles: [{ role: String }]
 });
 
 export const UserModelSchema = model<UserModel>('users', schema);

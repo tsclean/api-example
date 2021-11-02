@@ -7,5 +7,6 @@ export interface ILoadAccountTokenService {
 export namespace ILoadAccountTokenService {
     export type Result = {
         id: string;
+        roles: [];
     }
 }

@@ -14,16 +14,13 @@ export class UserMongooseRepositoryAdapter implements IAddUserRepository,
     ILoadAccountTokenRepository {
 
     map(data: any): any {
-        const {_id, firstName, lastName, email, password} = data
-        return Object.assign({}, {id: _id.toString(), firstName, lastName, email, password})
+        const {_id, firstName, lastName, email, password, roles} = data
+        return Object.assign({}, {id: _id.toString(), firstName, lastName, email, password, roles})
     }
 
-    async addUserRepository(data: AddUserParams): Promise<UserModel> {
-        return await UserModelSchema.create(data);
-    }
 
     async getUsersRepository(): Promise<UserModel[]> {
-        return UserModelSchema.find();
+        return UserModelSchema.find().select("-password");
     }
 
     async checkEmail(email: string): Promise<ICheckEmailRepository.Result> {
@@ -45,10 +42,15 @@ export class UserMongooseRepositoryAdapter implements IAddUserRepository,
     }
 
     async loadToken(token: string): Promise<ILoadAccountTokenRepository.Result> {
+        console.log("adapter", token)
         let objectFilter: {}
         objectFilter["_id"] = new mongoose.mongo.ObjectId(token)
         console.log(objectFilter)
         const result = await UserModelSchema.findOne(objectFilter);
         return this.map(result);
+    }
+
+    async addUserRepository(data: AddUserParams): Promise<IAddUserRepository.Result> {
+        return await UserModelSchema.create(data);
     }
 }

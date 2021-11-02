@@ -1,22 +1,26 @@
-import {Mapping, Inject, Post, Body, Adapter} from "@tsclean/core";
+import {Post, Body, Controller, Inject} from "@tsclean/core";
+import {ValidateFields} from "@/infrastructure/helpers/validate-fields";
 import {AUTHENTICATION_SERVICE, IAuthenticationService} from "@/domain/use-cases/authentication-service";
 
-@Mapping('api/v1/authentication')
+@Controller('api/v1/authentication')
 export class AuthenticationController {
 
     constructor(
-        @Adapter(AUTHENTICATION_SERVICE)
-        private readonly authenticationService: IAuthenticationService
+        @Inject(AUTHENTICATION_SERVICE) private readonly authenticationService: IAuthenticationService
     ) {
     }
 
     @Post()
-    async authController(@Body() data: IAuthenticationService.Params): Promise<IAuthenticationService.Result> {
+    async authController(@Body() data: IAuthenticationService.Params): Promise<IAuthenticationService.Result | any> {
+
+        const {errors, isValid} = ValidateFields.fieldsValidation(data);
+
+        if (!isValid) return {statusCode: 422, body: {"message": errors}}
+
         const result = await this.authenticationService.auth(data);
         return {
             accessToken: result.accessToken,
             name: result.name
         }
     }
-
 }

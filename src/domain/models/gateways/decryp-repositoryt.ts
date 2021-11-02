@@ -1,4 +1,4 @@
-export const DECRYPT = "DECRYPT";
+export const DECRYPT_REPOSITORY = "DECRYPT_REPOSITORY";
 
 export interface IDecrypt {
     decrypt: (cipher: string) => Promise<IDecrypt.Result>

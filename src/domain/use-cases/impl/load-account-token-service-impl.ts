@@ -1,17 +1,17 @@
-import {Adapter, Service} from "@tsclean/core";
 import {ILoadAccountTokenService} from "@/domain/use-cases/load-account-token-service";
 import {
     ILoadAccountTokenRepository,
     LOAD_ACCOUNT_TOKEN_REPOSITORY
 } from "@/domain/models/gateways/load-account-token-repository";
-import {DECRYPT, IDecrypt} from "@/domain/use-cases/helpers/decrypt";
+import {DECRYPT_REPOSITORY, IDecrypt} from "@/domain/models/gateways/decryp-repositoryt";
+import {Inject, Injectable} from "@tsclean/core";
 
-@Service()
+@Injectable()
 export class LoadAccountTokenServiceImpl implements ILoadAccountTokenService {
 
     constructor(
-        @Adapter(DECRYPT) private readonly decrypt: IDecrypt,
-        @Adapter(LOAD_ACCOUNT_TOKEN_REPOSITORY) private readonly loadAccountTokenRepository: ILoadAccountTokenRepository
+        @Inject(DECRYPT_REPOSITORY) private readonly decrypt: IDecrypt,
+        @Inject(LOAD_ACCOUNT_TOKEN_REPOSITORY) private readonly loadAccountTokenRepository: ILoadAccountTokenRepository
     ) {
     }
 
@@ -26,6 +26,7 @@ export class LoadAccountTokenServiceImpl implements ILoadAccountTokenService {
 
         if (accessToken) {
             const account = await this.loadAccountTokenRepository.loadToken(accessToken["account"]);
+            console.log("service", account)
             if (account) return account;
         }
 

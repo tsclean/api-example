@@ -9,6 +9,7 @@ export namespace ICheckEmailRepository {
         id: string | number;
         firstName: string;
         password: string;
+        roles: [];
     }
     // export type Exist = boolean;
 }

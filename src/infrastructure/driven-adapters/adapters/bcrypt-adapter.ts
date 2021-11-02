@@ -1,18 +1,18 @@
 import bcrypt from "bcrypt";
-import {IEncrypt} from "@/domain/use-cases/helpers/encrypt";
-import {IHashCompare} from "@/domain/use-cases/helpers/hash-compare";
+import {IHashCompare} from "@/domain/models/gateways/hash-compare-repository";
+import {IHashRepository} from "@/domain/models/gateways/hash-repository";
 
-export class BcryptAdapter implements IEncrypt, IHashCompare {
+export class BcryptAdapter implements IHashRepository, IHashCompare {
     private readonly salt: number = 12;
 
     constructor() {
     }
 
-    async encrypt(text: string | Buffer): Promise<IEncrypt.Result> {
-        return await bcrypt.hash(text, this.salt);
-    }
-
     async compare(text: string, verify: string): Promise<boolean> {
         return await bcrypt.compare(text, verify);
+    }
+
+    async hash(text: string): Promise<string> {
+        return await bcrypt.hash(text, this.salt);
     }
 }
