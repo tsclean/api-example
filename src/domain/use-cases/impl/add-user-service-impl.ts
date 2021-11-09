@@ -3,14 +3,14 @@ import {AddUserParams} from "@/domain/models/user";
 import {ADD_USER_REPOSITORY, IAddUserRepository} from "@/domain/models/gateways/add-user-repository";
 import {CHECK_EMAIL_REPOSITORY, ICheckEmailRepository} from "@/domain/models/gateways/check-email-repository";
 import {HASH_REPOSITORY, IHashRepository} from "@/domain/models/gateways/hash-repository";
-import {Inject, Injectable} from "@tsclean/core";
+import {Adapter, Service} from "@tsclean/core";
 
-@Injectable()
+@Service()
 export class AddUserServiceImpl implements IAddUserService {
     constructor(
-        @Inject(HASH_REPOSITORY) private readonly hash: IHashRepository,
-        @Inject(CHECK_EMAIL_REPOSITORY) private readonly checkEmailRepository: ICheckEmailRepository,
-        @Inject(ADD_USER_REPOSITORY) private readonly addUserRepository: IAddUserRepository
+        @Adapter(HASH_REPOSITORY) private readonly hash: IHashRepository,
+        @Adapter(CHECK_EMAIL_REPOSITORY) private readonly checkEmailRepository: ICheckEmailRepository,
+        @Adapter(ADD_USER_REPOSITORY) private readonly addUserRepository: IAddUserRepository
     ) {
     }
 

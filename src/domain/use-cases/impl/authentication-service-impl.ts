@@ -6,14 +6,14 @@ import {
     UPDATE_ACCESS_TOKEN_REPOSITORY
 } from "@/domain/models/gateways/update-access-token-repository";
 import {ENCRYPT_REPOSITORY, IEncrypt} from "@/domain/models/gateways/encrypt-repository";
-import {Inject, Injectable} from "@tsclean/core";
+import {Adapter, Service} from "@tsclean/core";
 
-@Injectable()
+@Service()
 export class AuthenticationServiceImpl implements IAuthenticationService {
     constructor(
-        @Inject(ENCRYPT_REPOSITORY) private readonly encrypt: IEncrypt,
-        @Inject(HASH_COMPARE_REPOSITORY) private readonly hashCompare: IHashCompare,
-        @Inject(CHECK_EMAIL_REPOSITORY) private readonly checkEmailRepository: ICheckEmailRepository,
+        @Adapter(ENCRYPT_REPOSITORY) private readonly encrypt: IEncrypt,
+        @Adapter(HASH_COMPARE_REPOSITORY) private readonly hashCompare: IHashCompare,
+        @Adapter(CHECK_EMAIL_REPOSITORY) private readonly checkEmailRepository: ICheckEmailRepository,
         // @Adapter(UPDATE_ACCESS_TOKEN_REPOSITORY) private readonly updateAccessTokenRepository: IUpdateAccessTokenRepository
     ) {
     }

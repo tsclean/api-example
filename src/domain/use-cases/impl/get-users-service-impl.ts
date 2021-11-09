@@ -1,12 +1,12 @@
 import {IGetUsersService} from "@/domain/use-cases/get-users-service";
 import {UserModel} from "@/domain/models/user";
 import {GET_USERS_REPOSITORY, IGetUsersRepository} from "@/domain/models/gateways/get-users-repository";
-import {Inject, Injectable} from "@tsclean/core";
+import {Adapter, Service} from "@tsclean/core";
 
-@Injectable()
+@Service()
 export class GetUsersServiceImpl implements IGetUsersService {
     constructor(
-        @Inject(GET_USERS_REPOSITORY) private readonly getUsersRepository: IGetUsersRepository
+        @Adapter(GET_USERS_REPOSITORY) private readonly getUsersRepository: IGetUsersRepository
     ) {
     }
 

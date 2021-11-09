@@ -1,20 +1,25 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import {IEncrypt} from "@/domain/models/gateways/encrypt-repository";
-import {CanActivate, ExecutionContext} from "@tsclean/core";
+import {AccessResourceInterface, ExecutionContextInterface} from "@tsclean/core";
 
-dotenv.config({ path: ".env" })
+dotenv.config({path: ".env"})
 
-export class JwtAdapter implements IEncrypt, CanActivate {
+export class JwtAdapter implements IEncrypt, AccessResourceInterface {
 
     constructor(
         private readonly roles: string[]
     ) {
     }
 
-    canActivate(context: ExecutionContext): boolean | Promise<boolean> {
+    async encrypt(text: string | number | Buffer, roles: []): Promise<string> {
+        const payload = {id: text, roles: roles}
+        return jwt.sign({account: payload}, process.env.JWT_SECRET, {expiresIn: "1d"});
+    }
+
+    accessResource(context: ExecutionContextInterface): boolean | Promise<boolean> {
         try {
-            const request = context.switchToHttp().getRequest();
+            const request = context.getHttp().getRequest();
             const token = request.rawHeaders[1].split(" ")[1];
 
             if (token) {
@@ -27,20 +32,13 @@ export class JwtAdapter implements IEncrypt, CanActivate {
                     assignRole = false;
                     for (const roleElement of this.roles) {
                         let roleExist = role.role === roleElement;
-                        if (roleExist) {
-                            assignRole = roleExist;
-                            if(assignRole) return true;
-                        }
+                        if (roleExist) assignRole = roleExist;
+                        if (assignRole) return true;
                     }
                 }
             }
         } catch (e) {
             return false;
         }
-    }
-
-    async encrypt(text: string | number | Buffer, roles: []): Promise<string> {
-        const payload = {id: text, roles: roles}
-        return jwt.sign({account: payload}, process.env.JWT_SECRET, {expiresIn: "1d"});
     }
 }

@@ -4,14 +4,14 @@ import {
     LOAD_ACCOUNT_TOKEN_REPOSITORY
 } from "@/domain/models/gateways/load-account-token-repository";
 import {DECRYPT_REPOSITORY, IDecrypt} from "@/domain/models/gateways/decryp-repositoryt";
-import {Inject, Injectable} from "@tsclean/core";
+import {Service, Adapter} from "@tsclean/core";
 
-@Injectable()
+@Service()
 export class LoadAccountTokenServiceImpl implements ILoadAccountTokenService {
 
     constructor(
-        @Inject(DECRYPT_REPOSITORY) private readonly decrypt: IDecrypt,
-        @Inject(LOAD_ACCOUNT_TOKEN_REPOSITORY) private readonly loadAccountTokenRepository: ILoadAccountTokenRepository
+        @Adapter(DECRYPT_REPOSITORY) private readonly decrypt: IDecrypt,
+        @Adapter(LOAD_ACCOUNT_TOKEN_REPOSITORY) private readonly loadAccountTokenRepository: ILoadAccountTokenRepository
     ) {
     }
 

@@ -1,8 +1,8 @@
-import {Post, Body, Controller, Inject} from "@tsclean/core";
+import {Post, Body, Inject, Mapping} from "@tsclean/core";
 import {ValidateFields} from "@/infrastructure/helpers/validate-fields";
 import {AUTHENTICATION_SERVICE, IAuthenticationService} from "@/domain/use-cases/authentication-service";
 
-@Controller('api/v1/authentication')
+@Mapping('api/v1/authentication')
 export class AuthenticationController {
 
     constructor(
