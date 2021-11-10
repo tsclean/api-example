@@ -1,9 +1,9 @@
+import {Adapter, Service} from "@tsclean/core";
 import {IAddUserService} from "@/domain/use-cases/add-user-service";
 import {AddUserParams} from "@/domain/models/user";
 import {ADD_USER_REPOSITORY, IAddUserRepository} from "@/domain/models/gateways/add-user-repository";
 import {CHECK_EMAIL_REPOSITORY, ICheckEmailRepository} from "@/domain/models/gateways/check-email-repository";
 import {HASH_REPOSITORY, IHashRepository} from "@/domain/models/gateways/hash-repository";
-import {Adapter, Service} from "@tsclean/core";
 
 @Service()
 export class AddUserServiceImpl implements IAddUserService {

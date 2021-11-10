@@ -11,7 +11,7 @@ export class GetUsersController {
     }
 
     @Get()
-    @Auth(["manager", "guest"])
+    @Auth(["admin", "guest"])
     async getUsersController(): Promise<any> {
         return await this.getUsersService.getUsersService();
     }

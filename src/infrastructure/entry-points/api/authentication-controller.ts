@@ -18,6 +18,9 @@ export class AuthenticationController {
         if (!isValid) return {statusCode: 422, body: {"message": errors}}
 
         const result = await this.authenticationService.auth(data);
+
+        if (result === null) return {statusCode: 401, body: {"message": "Invalid credentials"}}
+
         return {
             accessToken: result.accessToken,
             name: result.name

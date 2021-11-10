@@ -1,4 +1,4 @@
-import {Body, Inject, Mapping, Post} from "@tsclean/core";
+import {Adapter, Body, Mapping, Post} from "@tsclean/core";
 import {AddUserParams} from "@/domain/models/user";
 import {ADD_USER_SERVICE, IAddUserService} from "@/domain/use-cases/add-user-service";
 import {ValidateFields} from "@/infrastructure/helpers/validate-fields";
@@ -8,7 +8,7 @@ import {Auth} from "@/infrastructure/helpers/auth";
 export class AddUserController {
 
     constructor(
-        @Inject(ADD_USER_SERVICE) private readonly addUserService: IAddUserService
+        @Adapter(ADD_USER_SERVICE) private readonly addUserService: IAddUserService
     ) {
     }
 
